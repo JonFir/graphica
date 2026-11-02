@@ -1,0 +1,86 @@
+formatVersion: "0.1"
+kind: activity-diagram
+id: review-and-release
+title: Review and prepare a release
+description: Repeat review when needed, then prepare documentation and checks in parallel.
+entry: start
+nodes:
+  - id: start
+    type: initial
+    title: Start
+  - id: prepare-entry
+    type: merge
+    title: Begin or repeat preparation
+  - id: prepare
+    type: action
+    title: Prepare the change
+  - id: review
+    type: decision
+    title: Is the change approved?
+  - id: work
+    type: fork
+    title: Prepare both release requirements
+    join: ready
+  - id: docs
+    type: action
+    title: Prepare documentation
+  - id: checks
+    type: action
+    title: Run release checks
+  - id: ready
+    type: join
+    title: Wait for both requirements
+    fork: work
+  - id: release
+    type: decision
+    title: Can this revision be released?
+  - id: publish
+    type: action
+    title: Publish the release
+  - id: done
+    type: final
+    title: Release complete
+edges:
+  - id: start-prepare
+    source: start
+    target: prepare-entry
+  - id: enter-prepare
+    source: prepare-entry
+    target: prepare
+  - id: prepare-review
+    source: prepare
+    target: review
+  - id: revise
+    source: review
+    target: prepare-entry
+    label: Needs revision
+  - id: approve
+    source: review
+    target: work
+    label: Approved
+  - id: work-docs
+    source: work
+    target: docs
+  - id: work-checks
+    source: work
+    target: checks
+  - id: docs-ready
+    source: docs
+    target: ready
+  - id: checks-ready
+    source: checks
+    target: ready
+  - id: ready-release
+    source: ready
+    target: release
+  - id: retry
+    source: release
+    target: prepare-entry
+    label: Rework and repeat both requirements
+  - id: ship
+    source: release
+    target: publish
+    label: Release this revision
+  - id: published
+    source: publish
+    target: done

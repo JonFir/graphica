@@ -1,0 +1,172 @@
+[
+  {
+    "name": "valid-result-root",
+    "valid": true,
+    "document": {
+      "formatVersion": "0.1", "kind": "decision-tree", "id": "minimal", "title": "Result root", "root": "done",
+      "nodes": [{ "id": "done", "type": "result", "title": "Done", "value": "done" }]
+    }
+  },
+  {
+    "name": "valid-action-root",
+    "valid": true,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "Action root", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work" }]
+    }
+  },
+  {
+    "name": "valid-condition-root",
+    "valid": true,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "Condition root", "root": "ready",
+      "nodes": [{ "id": "ready", "type": "condition", "title": "Ready?" }]
+    }
+  },
+  {
+    "name": "valid-minimal-activity",
+    "valid": true,
+    "document": {
+      "formatVersion": "0.1", "kind": "activity-diagram", "id": "minimal", "title": "Immediate activity", "entry": "start",
+      "nodes": [{ "id": "start", "type": "initial", "title": "Start" }, { "id": "done", "type": "final", "title": "Done" }],
+      "edges": [{ "id": "finish", "source": "start", "target": "done" }]
+    }
+  },
+  {
+    "name": "unknown-version",
+    "valid": false,
+    "document": {
+      "formatVersion": "99.0", "kind": "behavior-tree", "id": "minimal", "title": "Unknown version", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work" }]
+    }
+  },
+  {
+    "name": "numeric-version",
+    "valid": false,
+    "document": {
+      "formatVersion": 0.1, "kind": "behavior-tree", "id": "minimal", "title": "Numeric version", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work" }]
+    }
+  },
+  {
+    "name": "unknown-kind",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "state-machine", "id": "minimal", "title": "Unknown kind", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work" }]
+    }
+  },
+  {
+    "name": "node-from-another-kind",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "decision-tree", "id": "minimal", "title": "Wrong node", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work" }]
+    }
+  },
+  {
+    "name": "missing-root",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "No root",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work" }]
+    }
+  },
+  {
+    "name": "unknown-document-field",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "Extra field", "root": "work", "entry": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work" }]
+    }
+  },
+  {
+    "name": "unknown-node-field",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "Executable field", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work", "command": "echo example" }]
+    }
+  },
+  {
+    "name": "leaf-with-children",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "Leaf children", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work", "children": ["other"] }]
+    }
+  },
+  {
+    "name": "empty-composite",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "Empty sequence", "root": "work",
+      "nodes": [{ "id": "work", "type": "sequence", "title": "Work", "children": [] }]
+    }
+  },
+  {
+    "name": "repeated-child-reference",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "Repeated child", "root": "work",
+      "nodes": [{ "id": "work", "type": "selector", "title": "Work", "children": ["other", "other"] }]
+    }
+  },
+  {
+    "name": "question-with-one-choice",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "decision-tree", "id": "minimal", "title": "One choice", "root": "question",
+      "nodes": [{ "id": "question", "type": "question", "title": "Proceed?", "choices": [{ "id": "proceed", "label": "Proceed", "target": "done" }] }]
+    }
+  },
+  {
+    "name": "missing-fork-pair",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "activity-diagram", "id": "minimal", "title": "Unpaired fork", "entry": "split",
+      "nodes": [{ "id": "split", "type": "fork", "title": "Split" }],
+      "edges": [{ "id": "edge", "source": "split", "target": "other" }]
+    }
+  },
+  {
+    "name": "empty-result",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "decision-tree", "id": "minimal", "title": "Empty result", "root": "done",
+      "nodes": [{ "id": "done", "type": "result", "title": "Done", "value": "" }]
+    }
+  },
+  {
+    "name": "invalid-identifier",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "not an id", "title": "Invalid ID", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work" }]
+    }
+  },
+  {
+    "name": "identifier-with-trailing-newline",
+    "valid": false,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal\n", "title": "Invalid ID", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "Work" }]
+    }
+  },
+  {
+    "name": "duplicate-node-ids-need-graph-validation",
+    "valid": true,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "Shape valid only", "root": "work",
+      "nodes": [{ "id": "work", "type": "action", "title": "First" }, { "id": "work", "type": "condition", "title": "Second" }]
+    }
+  },
+  {
+    "name": "missing-target-needs-graph-validation",
+    "valid": true,
+    "document": {
+      "formatVersion": "0.1", "kind": "behavior-tree", "id": "minimal", "title": "Shape valid only", "root": "work",
+      "nodes": [{ "id": "work", "type": "sequence", "title": "Work", "children": ["absent"] }]
+    }
+  }
+]

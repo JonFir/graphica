@@ -1,0 +1,27 @@
+{
+  "formatVersion": "0.1",
+  "kind": "decision-tree",
+  "id": "choose-next-step",
+  "title": "Choose the next development step",
+  "description": "Select answers from evidence gathered outside Path.",
+  "root": "understood",
+  "nodes": [
+    {
+      "id": "understood", "type": "question", "title": "Is the problem understood?",
+      "choices": [
+        { "id": "known", "label": "The cause is understood", "target": "covered" },
+        { "id": "unknown", "label": "More investigation is needed", "target": "investigate" }
+      ]
+    },
+    {
+      "id": "covered", "type": "question", "title": "Is the intended behavior covered by a test?",
+      "choices": [
+        { "id": "tested", "label": "A relevant test exists", "target": "implement" },
+        { "id": "untested", "label": "Coverage is missing", "target": "add-test" }
+      ]
+    },
+    { "id": "investigate", "type": "result", "title": "Investigate the problem", "value": "investigate" },
+    { "id": "implement", "type": "result", "title": "Implement the change", "value": "implement" },
+    { "id": "add-test", "type": "result", "title": "Add a regression test", "value": "add-test" }
+  ]
+}

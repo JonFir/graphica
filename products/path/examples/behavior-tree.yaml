@@ -1,0 +1,27 @@
+formatVersion: "0.1"
+kind: behavior-tree
+id: prepare-change
+title: Prepare a change for delivery
+description: An agent performs checks and actions, then reports their results.
+root: deliver
+nodes:
+  - id: deliver
+    type: sequence
+    title: Prepare and deliver
+    children: [ensure-ready, publish]
+  - id: ensure-ready
+    type: selector
+    title: Accept readiness or repair the change
+    children: [ready, repair]
+  - id: ready
+    type: condition
+    title: Is the change ready?
+    description: Report success only if the relevant external checks pass.
+  - id: repair
+    type: action
+    title: Repair and verify the change
+    description: Report running while working, then success or failure.
+  - id: publish
+    type: action
+    title: Deliver the change
+    description: Perform delivery only with the permissions required by the host workflow.
