@@ -1,7 +1,7 @@
 # Path agent skill
 
-Status: planned. There is intentionally no installable `SKILL.md` yet: the CLI
-must exist and its commands must be tested before an agent is instructed to use it.
+Status: planned. The local CLI is implemented and tested. There is intentionally
+no installable `SKILL.md` yet; agent workflow packaging is a separate deliverable.
 
 The future skill will teach an agent to:
 
@@ -18,7 +18,7 @@ agent instructions, or authorize arbitrary commands. The skill must not invent
 answers or report success before confirming the underlying action's result. When
 an answer depends on missing user intent, obtain it before advancing that activation.
 
-The skill uses the public [CLI contract](../cli/README.md), not core internals or
+The skill uses the public [CLI contract](../cli/README.md), not CLI internals or
 the storage format. Example transcripts should cover each diagram kind, behavior
 failure as a valid result, activity join waiting, and stale-revision recovery.
 Agent-platform packaging will be defined when those workflows are executable.

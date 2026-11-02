@@ -1,7 +1,7 @@
 # Run contract
 
-Status: draft `0.1`; no run store or interpreter exists yet. This is a logical
-contract, not a promise of a stable serialized Rust type.
+Status: draft `0.1`; the local run store and interpreter are implemented. This is
+a logical contract, not a promise of a stable serialized Rust type.
 
 ## Identity and lifecycle
 
@@ -67,7 +67,7 @@ come from the diagram snapshot. Run queries return a complete public view; `next
 returns only run identity, revision, status, outcome, and available inputs.
 
 Input is addressed to an activation, never just a node. The mutation includes an
-expected revision. The core rejects a revision conflict, unknown or inactive
+expected revision. The CLI interpreter rejects a revision conflict, unknown or inactive
 activation, operation mismatch, unavailable choice, or disallowed report before
 making any changes. Mutations on completed runs are rejected. A retried successful
 request with the old revision fails; clients query the run before deciding to retry.
@@ -112,7 +112,7 @@ to commands are identifiers, not filesystem paths. Keep runtime data out of sour
 control. Migration and retention policies are deferred; there is no automatic
 cleanup or migration in this draft.
 
-The durable interpreter representation is private to the core/run-version pair.
+The durable interpreter representation is private to the CLI/run-version pair.
 The public `RunView` is derived from it and is not sufficient to resume execution.
 Consumers must not edit persisted state. `run status` returns both the frozen
 `diagram` and its `view` so a viewer can receive a matching pair even when the

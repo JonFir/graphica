@@ -2,7 +2,7 @@
 
 Status: draft `0.1`. The normative data-shape contract is
 [`path.schema.json`](path.schema.json), using JSON Schema Draft 2020-12. The graph
-and execution rules below are additional requirements for the future core.
+and execution rules below are additional requirements implemented by the Rust CLI.
 
 ## Encoding and common fields
 
@@ -149,8 +149,9 @@ cancellation of parallel branches or UML flow-final node.
 4. **Runtime:** active activation, permitted operation, valid choice/report, and
    current run revision.
 
-The JSON Schema and foundation checker cover shape; the checker also verifies
-example encoding and YAML/JSON equivalence. Graph and runtime checks belong to the
-future core. Diagnostics should include a stable code, message, and data location
+The JSON Schema describes shape. The CLI validates encoding, shape, and graph
+semantics; its Rust tests check the shape fixtures and YAML/JSON example
+equivalence. Runtime checks also belong to the CLI. Diagnostics include a stable
+code, message, and data location
 (JSON Pointer), plus node/edge IDs when applicable. See the
 [acceptance scenarios](../docs/conformance.md).

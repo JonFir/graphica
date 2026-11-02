@@ -1,7 +1,7 @@
 # Examples
 
 Each YAML file has a JSON twin with exactly the same decoded data. These files
-are format fixtures; no runtime is included yet.
+are format fixtures and can be run with the local `path` CLI.
 
 | Pair | Demonstrates | Expected walkthrough |
 | --- | --- | --- |
@@ -20,6 +20,5 @@ appears only after both finish. Choosing `retry` from `release` repeats the whol
 process with a new fork instance and fresh branch activations.
 
 See [conformance scenarios](../docs/conformance.md) for the complete expected
-success, failure, resume, concurrency, and rejection behavior. Run
-`../.venv/bin/python ../tooling/check_format.py` from this directory to check the
-schema and example equivalence after setting up dependencies from the product README.
+success, failure, resume, concurrency, and rejection behavior. Run `cargo test`
+from the product directory to check example equivalence and runtime behavior.

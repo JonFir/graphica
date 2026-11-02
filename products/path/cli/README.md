@@ -1,23 +1,61 @@
 # Path CLI
 
-Status: planned Rust binary named `path`. The commands below are a draft contract;
-they are not installed or implemented by this foundation.
+Status: implemented local Rust binary named `path`. The command contract is
+draft version `0.1`; no package has been published.
+
+This package contains the parser, graph validator, three run interpreters, and
+filesystem adapter as internal CLI modules. It does not publish a Rust library API.
 
 ## Commands
 
+Build from the product directory with `cargo build --bin path`. Invoke the
+built binary as `target/debug/path`.
+
 ```text
 path validate <file> [--json]
+path render <file> [--ascii] [--json]
 path run start <file> [--state-dir <dir>] [--json]
 path run status <run-id> [--state-dir <dir>] [--json]
 path run next <run-id> [--state-dir <dir>] [--json]
 path run choose <run-id> <activation-id> <choice-id> --revision <n> [--note <text>] [--state-dir <dir>] [--json]
 path run report <run-id> <activation-id> <status> --revision <n> [--note <text>] [--state-dir <dir>] [--json]
 path run history <run-id> [--state-dir <dir>] [--json]
+path run render <run-id> [--state-dir <dir>] [--ascii] [--json]
 ```
 
 All commands are noninteractive. Missing arguments are errors; no prompts select
 an answer or silently complete an action. `validate` checks encoding, shape, and
 graph semantics without starting a run or creating storage.
+
+`render` prints a diagram as a static terminal graph. It shows node IDs and
+short titles in the graph, then full titles, descriptions, and labeled choices
+below it. `--ascii` uses ASCII connectors and state markers; diagram text is
+preserved. Control characters in document text are escaped. The layout may be
+wider than a narrow terminal. For example:
+
+```sh
+path render examples/activity-diagram.yaml
+path render examples/activity-diagram.yaml --ascii
+```
+
+`run render` uses the diagram frozen at `start` and marks available inputs (`▶`),
+waiting joins (`◷`), active composites (`◆`), and completed nodes (`✓`). With
+`--ascii`, these markers are `>`, `~`, `+`, and `x`. It also lists activation IDs
+and operations for the next input, pending join branches, and any outcome. Like
+`status`, it only reads the saved run and does not change the revision or file.
+Neither rendering command starts an interactive session.
+
+For example, after `path run start examples/decision-tree.yaml --json`, read
+`data.view.runId`, `data.view.revision`, and the first
+`data.view.availableInputs[0].activationId` from its response. The first
+activation asks `understood`; submit the `known` choice with:
+
+```sh
+path run choose <run-id> <activation-id> known --revision 1 --json
+```
+
+Use the returned revision and new activation ID for the next step. The run
+remains usable if the source file is moved or edited.
 
 `start` validates and freezes a diagram, creates a new run, and performs automatic
 control transitions. `status`, `next`, and `history` are read-only. `choose` and
@@ -42,6 +80,7 @@ The empty success `data` above illustrates the envelope only. Actual data is:
 | Command | `data` |
 | --- | --- |
 | `validate` | `{valid: true, diagramId, kind, formatVersion}` |
+| `render`, `run render` | `{text}` containing the terminal rendering |
 | `start`, `status`, `choose`, `report` | `{diagram, view}` using the frozen diagram and `RunView` |
 | `next` | `{runId, revision, status, outcome, availableInputs}` |
 | `history` | `{runId, revision, events}` in increasing sequence order |
@@ -71,5 +110,5 @@ activation identity are defined in [runs](../docs/runs.md).
 6. Query again after a conflict or uncertain write result; never resend blindly.
 
 Use an explicit `--state-dir` when commands run from different working directories.
-No interactive UI, import/export command, scripting engine, daemon, or automatic
-migration is included in this draft.
+No TUI, import/export command, scripting engine, daemon, or automatic migration
+is included in this draft.

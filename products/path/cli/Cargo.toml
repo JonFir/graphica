@@ -1,0 +1,17 @@
+[package]
+name = "path-cli"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "path"
+path = "src/main.rs"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+clap = { version = "4", features = ["derive"] }
+tempfile = "3"
+yaml-rust2 = "0.13"
+ascii-dag = "0.11"

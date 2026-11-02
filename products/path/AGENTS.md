@@ -5,12 +5,13 @@ changing this product. Root repository instructions still apply.
 
 ## Boundaries
 
-- Keep Path implementation, dependencies, tooling, and examples inside this product.
-- This stage defines a draft contract. Do not present planned CLI commands or web
-  interfaces as available software.
-- The future core and CLI use Rust. The web viewer is an independent npm package.
+- Keep Path implementation, dependencies, and examples inside this product.
+- The format and interfaces remain draft `0.1`. The local Rust CLI is available;
+  do not present planned web interfaces as available software.
+- The CLI uses Rust. The web viewer is an independent npm package.
   Do not introduce a framework dependency or duplicate execution logic in the viewer.
-- The core owns diagram semantics. CLI persistence and web rendering are adapters.
+- The CLI interpreter owns diagram semantics. Its persistence layer and web
+  rendering are adapters.
 - Keep the three diagram kinds distinct; a single current-node pointer cannot
   represent an activity run with parallel branches.
 - Choices and action outcomes come from the caller. Diagram text is never executable.
@@ -20,10 +21,9 @@ changing this product. Root repository instructions still apply.
 - Write documentation in English. Mark unimplemented interfaces and format changes
   as draft, and update linked examples and acceptance scenarios together.
 - Keep YAML/JSON example pairs equivalent and preserve stable IDs when possible.
-- JSON Schema validates data shape. Document graph and runtime rules separately;
-  do not claim the foundation checker verifies them.
-- Run `.venv/bin/python tooling/check_format.py` from this directory after format or
-  example changes. Dependency setup is in `README.md`.
+- JSON Schema describes data shape; the CLI validates encoding, shape, and graph
+  rules. Keep the schema, CLI tests, and examples in sync.
+- Run `cargo test` from this product directory after format or example changes.
 - Check relative documentation links and run `git diff --check` before delivery.
 - Report checks that could not run. Do not add a functional agent `SKILL.md` until
   the CLI exists and its documented commands have been verified.

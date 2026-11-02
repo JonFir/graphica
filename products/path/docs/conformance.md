@@ -1,23 +1,24 @@
 # Conformance and acceptance scenarios
 
-Status: draft `0.1`. The foundation checker executes encoding, JSON Schema, and
-example-equivalence checks only. The graph, runtime, storage, and viewer scenarios
-below are acceptance criteria for future implementations, not passing runtime tests.
+Status: draft `0.1`. CLI tests cover encoding, shape fixtures, example
+equivalence, graph, runtime, and storage scenarios. Viewer and agent scenarios
+remain future acceptance criteria.
 
-## Foundation checks available now
+## Format checks in the CLI tests
 
-- Validate the schema against the Draft 2020-12 metaschema.
+- Parse the draft schema and check its declared JSON Schema dialect.
 - Decode every YAML/JSON example pair, validate both documents, and compare them.
 - Require examples for all three kinds and coverage of every supported node type.
 - Check valid minimal roots and invalid shape fixtures in
   [schema-cases.json](../format/schema-cases.json).
 - Reject ambiguous encoding (duplicate keys, multiple YAML documents, aliases,
   anchors, explicit tags, non-string keys, and non-JSON scalar values).
-- Check links between local Markdown files and reject whitespace errors in the diff.
+- Check links between local Markdown files and reject whitespace errors in the diff
+  before delivery.
 
-## Future graph validation
+## Graph validation
 
-For schema-valid inputs, the core must reject these cases with diagnostics identifying
+For schema-valid inputs, the CLI must reject these cases with diagnostics identifying
 the relevant data location. Codes below are the intended diagnostic vocabulary.
 
 | Case | Expected code |
@@ -90,7 +91,7 @@ reload with one branch waiting at the join; preserve its arrival and fork instan
 
 Instead of `ship`, choose `retry` and reach `work` again. All activations and the
 fork instance must be fresh. An arrival from the previous iteration cannot satisfy
-the new join. Add nested fork fixtures during core implementation and verify that
+the new join. The nested fork fixtures verify that
 inner and outer join arrivals remain isolated. Waiting joins do not accept reports.
 
 ## Rejected input and persistence
@@ -118,6 +119,17 @@ Additional acceptance checks:
 - Reject traversal-like run IDs; respect explicit state directory without global fallback.
 - Verify event sequences, revisions, causal explanations, and outcome after reload.
 - Start invalid input without creating a run; reject unsupported format versions.
+
+## Terminal rendering
+
+- Render each YAML/JSON example pair with equal output for its diagram kind.
+- Show branch labels, ordered behavior children, activity loops, and parallel
+  fork/join connections; retain full node descriptions below the graph.
+- Render a saved run after the source file is removed, using its frozen diagram.
+  Show available activations and a partially satisfied join without writing the
+  run file or changing its revision.
+- Check ASCII connectors and markers, JSON `{text}` output, and escaped control
+  characters from diagram text.
 
 ## Viewer and agent acceptance
 
