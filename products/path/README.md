@@ -53,6 +53,36 @@ terminal rendering, and storage behavior.
 The binary is `target/debug/path` after a build. Run files are placed under
 `.path/runs/` by default; that directory is ignored by Git.
 
+## CLI
+
+Run the built binary as `target/debug/path` from this directory. Commands that
+take a file accept `.json`, `.yaml`, and `.yml` diagrams. All commands are
+noninteractive.
+
+| Command | What it does |
+| --- | --- |
+| `path validate <file>` | Check encoding, data shape, and graph rules without creating a run. |
+| `path render <file>` | Draw a validated diagram in the terminal without starting a run. |
+| `path run start <file>` | Validate and freeze the diagram, create a run, and advance automatic nodes to the first inputs or outcome. |
+| `path run status <run-id>` | Show the frozen diagram and complete current run view, including activations, available inputs, waiting joins, history, and outcome. |
+| `path run next <run-id>` | Show the run's revision, status, outcome, and available inputs without the full diagram or history. |
+| `path run choose <run-id> <activation-id> <choice-id> --revision <n>` | Select an available answer in a decision tree or outgoing edge in an activity diagram, then save the new state. |
+| `path run report <run-id> <activation-id> <status> --revision <n>` | Report an action or condition result, then save the new state. Allowed statuses come from that input's `allowedStatuses`. |
+| `path run history <run-id>` | Show the run's events in sequence order. |
+| `path run render <run-id>` | Draw the frozen diagram with current inputs, waiting joins, completed nodes, and outcome marked. |
+
+Use the `runId`, `revision`, and `activationId` returned by `start`, `status`, or
+`next` when submitting `choose` or `report`. Each accepted mutation increments
+the revision. `status`, `next`, `history`, and `run render` only read the run.
+
+`--json` produces a machine-readable response for any command. Run commands
+accept `--state-dir <dir>` to choose a run directory; the default is `.path/runs/`
+under the current working directory. Both render commands accept `--ascii`.
+`choose` and `report` accept `--note <text>` to record caller context in history.
+Use `path --help`, `path run --help`, or a command's `--help` for argument help.
+See the [CLI command reference](cli/README.md) for output fields, examples, and
+exit codes.
+
 ## Initial boundaries
 
 The runtime uses local files for independent runs. The planned web component
